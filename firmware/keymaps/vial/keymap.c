@@ -21,3 +21,27 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
         ENCODER_CCW_CW(KC_MS_WH_UP, KC_MS_WH_DOWN)},
     [1] = {ENCODER_CCW_CW(KC_TRNS, KC_TRNS), ENCODER_CCW_CW(KC_TRNS, KC_TRNS)}};
 #endif
+
+#ifdef OLED_ENABLE
+bool oled_task_user(void)
+{
+    oled_write_P(PSTR("Pad: Vipad\n"), false);
+    oled_write_P(PSTR("Layer: "), false);
+
+    switch (get_highest_layer(layer_state))
+    {
+    case 0:
+        oled_write_P(PSTR("BASE (NUM)\n"), false);
+        break;
+    case 1:
+        oled_write_P(PSTR("FN (MEDIA)\n"), false);
+        break;
+    default:
+        oled_write_P(PSTR("CUSTOM\n"), false);
+    }
+
+    oled_write_P(PSTR("\nEnc1: Vol\nEnc2: Scroll"), false);
+
+    return false;
+}
+#endif
